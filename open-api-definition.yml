@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  title: neo4j-mean-api
+  version: "1.0-oas3"
+  description: Import from "neo4j-mean-api" Function App
+paths:
+  '/cat/{name}':
+    get:
+      operationId: getCat
+      summary: Returns cat with provided name
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cat object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cat'
+              example:
+                name: Apollo
+        '400':
+          description: Missing required parameter (name)
+    put:
+      operationId: updateCat
+      summary: Updates cat with provided name
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Missing required parameter (name)
+    delete:
+      operationId: deleteCat
+      summary: Deletes cat with provided name
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Missing required parameter (name)
+  /cats:
+    get:
+      operationId: getAllCats
+      summary: Returns all cats
+      responses:
+        '200':
+          description: A list of cats
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfCats'
+    post:
+      operationId: createCat
+      summary: Creates cat provided in body
+      requestBody:
+        description: Cat object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cat'
+            example:
+              name: Apollo
+      responses:
+        '201':
+          description: Success
+        '400':
+          description: Missing required parameter (name)
+tags: []
+servers:
+  - url: 'https://neo4j-mean-api-apim.azure-api.net/neo4j-mean-api'
+components:
+  schemas:
+    Cat:
+      type: object
+      properties:
+        name:
+          type: string
+    ArrayOfCats:
+      type: array
+      items:
+        $ref: '#/components/schemas/Cat'
